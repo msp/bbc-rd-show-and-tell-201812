@@ -1,0 +1,407 @@
+
+cps 1
+
+
+
+-- Hello World! ----------------------------------------------------------------
+
+d1 $ sound "bd*2 hh sd hc:4"
+
+-- Cycles ----------------------------------------------------------------------
+
+-- One cycle per second, events are squashed to fit
+
+d1 $ sound "bd hh sd hc:4"
+
+d1 $ sound "bd hh sd hc:4 bd bd"
+
+d1 $ sound "bd sd hh cp mt arpy drum odx bd arpy bass2 feel future"
+
+-- Groups ----------------------------------------------------------------------
+
+d1 $ sound "[bd sd sd] cp"
+d1 $ sound "bd [sd sd]"
+d1 $ sound "bd [sd sd sd]"
+d1 $ sound "bd [sd sd sd sd]"
+d1 $ sound "[bd bd] [sd sd sd sd]"
+d1 $ sound "[bd bd bd] [sd sd]"
+d1 $ sound "[bd bd bd bd] [sd]"
+
+-- Layers ----------------------------------------------------------------------
+
+d1 $ sound "[bd bd bd, sd cp sd cp]"
+
+-- Density ---------------------------------------------------------------------
+
+d1 $ sound "bd*2 sd hh*4 hh/2"
+
+d1 $ sound "bd/2"
+
+-- Transformations -------------------------------------------------------------
+
+d1 $ sound "bd*2 [bd [sn sn*2 sn] sn]"
+
+d1 $ rev (sound "bd*2 [bd [sn sn*2 sn] sn]")
+
+d1 $ every 4 (rev) (sound "bd*2 [bd [sn sn*2 sn] sn]")
+
+d1 $ slow 4 $ sound "bd*2 [bd [sn sn*2 sn] sn]"
+
+d1 $ fast 4 $ sound "bd*2 [bd [sn sn*2 sn] sn]"
+
+d1 $ every 4 (fast 4) $ sound "bd*2 [bd [sn sn*2 sn] sn]"
+
+
+-- FX --------------------------------------------------------------------------
+
+d1 $ sound "bd*4"
+# crush "4"
+# speed "2"
+
+d1 $ sound "bd*4"
+# crush "4"
+# speed "2"
+# gain "1 0.8 0.5 0.7"
+
+d1 $ every 2 (|+| speed "0.2")
+$ sound "arpy*4"
+|=| speed "1"
+
+d1 $ every 2 (|+| speed "0.2")
+$ sound "arpy*4"
+# speed "1"
+# room (scale 0.1 0.6 (slow 3 (sine)))
+# size (scale 0.1 0.8 (slow 8 (sine)))
+
+d1 $ every 3 (|-| up "3")
+$ every 2 (|+| up "5")
+$ sound "arpy*8"
+|=| up "0 2 4 5"
+
+d1 silence
+
+-- Euclidean -------------------------------------------------------------------
+
+
+-- If you give two numbers in parenthesis after an element in a pattern,
+-- then Tidal will distribute
+-- the first number of sounds equally across the second number of steps:
+
+d1
+$ sound "bd(3,8)"
+
+d1
+$ slow 2
+$ sound "bd(3,8) sn(5,8)"
+
+
+-- These types of sequences use “Bjorklund’s algorithm”, which wasn’t made for
+-- music but for an application in nuclear physics.
+--
+-- (2,5) : A thirteenth century Persian rhythm called Khafif-e-ramal.
+-- (3,4) : The archetypal pattern of the Cumbia from Colombia,
+-- as well as a Calypso rhythm from Trinidad.
+-- (3,5,2) : Another thirteenth century Persian rhythm by the name of Khafif-e-ramal,
+-- as well as a Rumanian folk-dance rhythm.
+-- (3,7) : A Ruchenitza rhythm used in a Bulgarian folk-dance.
+-- (3,8) : The Cuban tresillo pattern.
+-- (4,7) : Another Ruchenitza Bulgarian folk-dance rhythm.
+-- (4,9) : The Aksak rhythm of Turkey.
+-- (4,11) : The metric pattern used by Frank Zappa in his piece titled Outside Now.
+-- (5,6) : Yields the York-Samai pattern, a popular Arab rhythm.
+-- (5,7) : The Nawakhat pattern, another popular Arab rhythm.
+-- (5,8) : The Cuban cinquillo pattern.
+-- (5,9) : A popular Arab rhythm called Agsag-Samai.
+-- (5,11) : The metric pattern used by Moussorgsky in Pictures at an Exhibition.
+-- (5,12) : The Venda clapping pattern of a South African children’s song.
+-- (5,16) : The Bossa-Nova rhythm necklace of Brazil.
+-- (7,8) : A typical rhythm played on the Bendir (frame drum).
+-- (7,12) : A common West African bell pattern.
+-- (7,16,14) : A Samba rhythm necklace from Brazil.
+-- (9,16) : A rhythm necklace used in the Central African Republic.
+-- (11,24,14) : A rhythm necklace of the Aka Pygmies of Central Africa.
+-- (13,24,5) : Another rhythm necklace of the Aka Pygmies of the upper Sangha.
+--
+
+d1 $ sound "[808bd:1(3,8)]"
+
+d1 $ sound "[808bd:1(3,8), 808sd:3(3,8)]"
+
+d2 $ sound "[808ht:1(2,6)]"
+
+
+
+-- Polymeters ------------------------------------------------------------------
+
+
+-- A polymeter pattern is one where two patterns have different sequence lengths,
+-- but share the same pulse or tempo.
+
+
+d1
+$ sound "{808bd hh sn cp:2, arpy sine:1 drum notes can}"
+
+d1
+$ sound "{808bd:1 808bd:1 808bd:1 808bd, arpy sine:1 drum notes can}"
+
+d2
+$ fast 1
+$ sound "~ <imp>"
+# gain 0.9
+# speed 1
+# begin (scale 0.4 0.9 $ slow 4 $ saw1)
+# pan (scale 1 0 $ slow 2 $ sine1)
+
+d3 $ jux (# accelerate "-0.3")
+$ s "supermandolin*8"
+# midinote "[80!6 78]/8"
+# sustain "1 0.25 2 1"
+# gain 0.8
+
+hush
+
+/***************************************
+ ************* PLAYGROUND **************
+ ***************************************/
+
+d1
+$ fast 2
+$ every 8 (0.25 <~)
+$ stack [
+ sound "<<msp msp:1 msp msp:1>/2 stab:5/6 odx:2/8 >*2",
+ sound "<odx:3/6 bd/8 ~ ~ gabba:0/8 ~ >",
+ sound "~ cp/4 ~"
+]
+# speed "[[1 -0.6], [0.8 2]*2]/6"
+# shape (scale 0.1 0.7 $ slow 10 $ sine1)
+# delay 0.4
+# delaytime (scale 0.05 1 (slow 8 (sine)))
+# delayfeedback (scale 0.1 0.6 $ slow 20 $ sine1)
+# room (scale 0.2 0.1 (slow 3 (sine)))
+# size (scale 0.1 0.8 (slow 8 (sine)))
+# orbit ch1_2
+# cut 1
+
+d1 silence
+
+/*************** JAZZER ***************** /
+
+d1
+$ every 4 (slow 32)
+$ sound "psr*8"
+# note (irand(30))
+# gain "0.7 1 0.7"
+# room (scale 0.4 0.1 (slow 3 (sine)))
+# size (scale 0.1 0.8 (slow 8 (sine)))
+# pan (scale 1 0 $ slow 4 $ sine1)
+# cut 1
+# orbit ch3_4
+
+d1 silence
+
+/*************** GLITCH ***************** /
+
+d2
+$ every 4 (0.25 <~)
+$ stack [
+ sound "<msp ~ print:1*2 ~ print:0 ~ ~ >/10 <casio:1*2? ~ procshort*3?>"
+]
+# note (irand(30))
+# gain 0.8
+# speed "[[0.5 1 -0.6], [3 -2 1 1.5]*2]/3"
+# shape (scale 0.1 0.7 $ slow 10 $ sine1)
+# delay 0.1
+# delaytime 0.1
+# delayfeedback (scale 0.1 0.8 $ slow 10 $ sine1)
+# room (scale 0.4 0.1 (slow 3 (sine)))
+# size (scale 0.1 0.8 (slow 8 (sine)))
+# pan (scale 1 0 $ slow 2 $ sine1)
+# orbit ch3_4
+
+d2 silence
+
+/*************** SUBS ***************** /
+
+let (f, f_p) = pF "f" (Just 440)
+
+d3
+$ sound "<tutorial5/2 ~>"
+# f "[50, 51]"
+# sustain 2
+# gain 1.2
+# accelerate 0.5
+
+d3 silence
+
+/*************** HI FX ***************** /
+
+d4
+$ every 16 (0.25 <~)
+$ sound "form-msp3"
+# speed "<[[-5 1 -0.6 3], [-1.2 -1 1 -1.5]*2]/3 ~>"
+# gain 0.7
+# shape 0.4
+# crush 5
+# bpf (scale 1000 20000 $ slow 5 sine1)
+# orbit ch3_4
+# accelerate (scale 0.4 0.1 (slow 10 (sine)))
+
+d4 silence
+
+hush
+
+/*************** LOOP ***************** /
+
+/* WONKY */
+
+d5
+$ every 16 (0.25 <~)
+$ spread ($) [fast 2, (# speed (scale 1 1.2 $ slow 5 $ saw1)), slow 2]
+$ stack [
+  sound "<form-msp2*2? form-msp2*4? [form-msp2*3? form-msp2] ~ ~ ~ ~ ~ ~ ~ ~ >"
+]
+# end 0.8
+# speed "1.5"
+# shape 0.3
+# gain "1.2 1.0 0.8"
+# room (scale 0.1 0.2 (slow 3 (sine)))
+# size (scale 0.1 0.4 (slow 8 (sine)))
+# orbit ch1_2
+
+/* STRAIGHT */
+
+d5
+$ fast 2
+$ stack [
+  sound "<form-msp2*2 form-msp2*4? form-msp2> / 8",
+  sound "<[techno:3/2 ~ ~ stab:2/16?]/2 <sd industrial:2 industrial:3 industrial:5*5? >> / 8"
+]
+# end 0.3
+# speed "1.5 1.3 1.8 -0.5"
+# gain "1.4 0.8"
+# shape 0.4
+# orbit ch1_2
+# cut 1
+
+# accelerate (scale 0.7 0.1 (slow 10 (sine)))
+# crush (scale 4 10 (slow 10 (sine)))
+# cutoff (scale 0 22000 $ slow 2 saw1)
+
+# delay 0.1
+# delaytime 0.1
+# delayfeedback (scale 0.1 0.8 $ slow 10 $ sine1)
+
+# speed "1.5 1 1.8 -0.5"
+
+
+-- 140 4/4
+cps (140/60/2)
+
+hush
+
+d5
+$ fast 0.5
+$ stack [
+  sound "<[techno]>",
+  sound "<~ [techno:3]>"
+]
+# orbit ch1_2
+# gain 1.6
+# speed 0.5
+
+d5 silence
+
+hush
+
+/*************** DONK ***************** /
+
+d7
+$ fast 4
+$ stack [
+  sound "<form-msp4 ~ ~ form-msp4*2? ~ ~ ~ ~ form-msp4 ~ ~ ~ form-msp4*4? ~ ~ ~>"
+]
+# end (scale 0.10 0.5 (slow 15 sine))
+# cutoff (scale 0 22000 $ slow 2 saw1)
+# resonance (scale 0.1 0.2 $ fast 19 $ sine1)
+# gain "1.2"
+# orbit ch1_2
+
+d7 silence
+
+hush
+
+/*************** PADSZ ***************** /
+
+d6
+$ spread ($) [fast 4, palindrome, slow 5, striate' 2 16, (# speed (scale 0.1 0.8 $ slow 5 $ sine1))]
+$ every 16 (0.25 <~)
+$ sound "<form-msp4:0*2 form-msp1:1*4 form-msp1:1*3>"
+# gain "0.6 0.6"
+# speed 4
+# cutoff (scale 50 15000 $ slow 2 saw1)
+# resonance (scale 0.1 0.4 $ fast 19 $ sine1)
+# room (scale 0.4 0.1 (slow 3 (sine)))
+# size (scale 0.1 0.4 (slow 8 (sine)))
+# delay 0.4
+# delaytime 0.1
+# delayfeedback (scale 0.1 0.8 $ slow 10 $ sine1)
+# pan (scale 1 0 $ slow 3 $ sine1)
+# orbit ch5_6
+
+# accelerate (scale 0.4 0.1 (slow 3 (sine)))
+# cut 1
+
+# bpf (scale 500 6000 $ slow 5 sine1)
+
+d6 silence
+
+/*************** SYNTHS ***************** /
+
+/* MIC */
+
+d7
+$ sound "inr"
+# gain 1
+
+d7 silence
+
+d8
+$ sound "cyclo"
+# n 1
+# gain 0.2
+# sustain 16
+# hpf 4000
+# hpq 1
+# pan (scale 1 0 $ slow 10 $ sine1)
+
+d8 silence
+
+d9
+$ fast 4
+$ sound "~ <imp>"
+# gain 1.2
+# speed 4
+# shape 0.8
+# crush 4
+# begin (scale 0 0.9 $ slow 4 $ saw1)
+# bpf (scale 4000 6000 $ slow 10 $ sine1)
+# delay 0.5
+# delaytime (scale 0.1 0.6 $ slow 4 $ sine1)
+# delayfeedback 0.4
+# pan (scale 1 0 $ slow 2 $ sine1)
+
+
+d9
+$ sound "~ <imp>"
+# gain 0.8
+# speed 1
+# begin (scale 0 0.9 $ slow 4 $ saw1)
+# bpf (scale 4000 6000 $ slow 10 $ sine1)
+# delay 0.5
+# delaytime (scale 0.1 0.6 $ slow 4 $ sine1)
+# delayfeedback 0.4
+# pan (scale 1 0 $ slow 2 $ sine1)
+
+d9 silence
+
+hush

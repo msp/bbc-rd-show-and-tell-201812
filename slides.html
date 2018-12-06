@@ -35,6 +35,10 @@
         padding-left: 40%;
       }
 
+      .big-list ul, .big-list ol {
+        padding-left: 20%;
+      }
+
       li {
         text-align: left;
         line-height: 2rem;
@@ -68,7 +72,7 @@
         margin-bottom: 1rem;
       }
 
-      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; text-align: left; }
 
     </style>
   </head>
@@ -123,7 +127,6 @@ Insert notes here
 2. Primitives v2
 3. Tidal Cycles
 4. Supercollider
-
 
 ???
 
@@ -208,10 +211,155 @@ background-size: cover
 
 - Tidal Cycles (patterns)
 - Supercollider (sampler/synths)
-- Python (OSC server)
-- Processing (light beam visuals)
+- Python (OSC servers)
+- Processing (light beams)
 
 .footnote[https://github.com/msp/tyneside-cinema]
+
+---
+
+# Primitives v2
+
+> Our world, ultimately, is reducible to parameters - geometry, brightness, loudness.
+
+> But just as a storm is more than the combined force of water and electricity, Primitives calls to mind not just the basic physics of primal forms, but also the spectator's inevitably subjective perception of these.
+
+> The custom-built software controls invite chance. Playing permutation, shapes and hues not only expand and contract across space, but also through time. 2D becomes 3D as the dynamic of control and abandon - much like the earth's own magnetism - shimmers and fluctuates. Primitives reminds us that through the tension between coded energies and human agency can be perceived a space of becoming.
+
+> Danni Zuvela, 2014
+
+.footnote[https://primitives.infrasonics.net]
+
+---
+
+# v1 Software
+
+- Open Frameworks
+- Maximilian (DSP)
+
+.footnote[https://github.com/msp/mspAVUgen]
+
+---
+
+# v2 Software
+
+- Tidal Cycles (pattern gen)
+- SuperCollider (DSP)
+- Processing (visual geometry)
+
+.footnote[https://github.com/msp/tyneside-cinema/]
+
+---
+
+
+<video controls>
+    <source src="/videos/oto-01.mp4" type="video/mp4">
+</video>
+
+### Cafe OTO: Oct 3rd, 001
+
+---
+
+<video controls>
+    <source src="/videos/oto-02.mp4" type="video/mp4">
+</video>
+
+### Cafe OTO: Oct 3d, 002
+
+
+---
+
+# Tidal Cycles
+
+TidalCycles (or Tidal for short) is a language for live coding patterns.
+It allows you to make musical patterns with text, describing sequences and
+ways of transforming and combining them, exploring complex interactions
+between simple parts.
+
+---
+
+# Pattern Generation
+
+Tidal is a Domain Specific Language written in Haskell.
+It's a declarative language for describing patterns, transformations and effects.
+
+
+---
+
+# Text Interface
+
+```haskell
+d1 $ sound "bd hh bd sd"
+```
+Tidal does not make sound itself, but is designed for use with the SuperDirt synth, and can control other synths over Open Sound Control or MIDI.
+
+???
+
+SuperDirt is writen in Supercollider.
+
+The OSC control here is crucial!
+
+---
+
+# Pattern Composition
+
+```haskell
+d1
+$ sound "bd hh bd sd"
+# gain 0.9
+# lpf $ slow 2 $ cosine
+```
+
+Tidal is highly composable in that pattern transformations can be easily combined together, allowing you to quickly create complex patterns from simple ingredients.
+
+---
+
+# Architecture
+
+https://github.com/msp/ew-speakeasy-20170719/blob/master/notes.md#architecture
+
+
+---
+
+# Jump into Tidal
+
+---
+
+# SuperCollider
+
+> SuperCollider is a platform for audio synthesis and algorithmic composition, used by musicians, artists, and researchers working with sound. It is free and open source software available for Windows, macOS, and Linux.
+
+
+---
+
+# Components
+
+.big-list[
+- **scsynth**, a real-time audio server, forms the core of the platform. It features 400+ unit generators (“UGens”) for analysis, synthesis, and processing.
+
+- **sclang**, an interpreted programming language. It is focused on sound, but not limited to any specific domain. sclang controls scsynth via Open Sound Control.
+
+- **scide** is an editor for sclang with an integrated help system.
+]
+
+---
+
+# Hello World
+
+```SuperCollider
+// modulate a sine frequency and a noise amplitude with another sine
+// whose frequency depends on the horizontal mouse pointer position
+{
+        var x = SinOsc.ar(MouseX.kr(1, 100));
+        SinOsc.ar(300 * x + 800, 0, 0.1)
+        +
+        PinkNoise.ar(0.1 * x + 0.1)
+}.play;
+```
+
+---
+
+# Jump into SC
 
 
 
