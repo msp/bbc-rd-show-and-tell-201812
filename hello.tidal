@@ -63,20 +63,22 @@ d1 $ sound "bd*4"
 # speed "2"
 # gain "1 0.8 0.5 0.7"
 
-d1 $ every 2 (|+| speed "0.2")
-$ sound "arpy*4"
-|=| speed "1"
-
-d1 $ every 2 (|+| speed "0.2")
-$ sound "arpy*4"
+d1
+$ every 2 (|+| speed "0.4")
+$ sound "arpy*8"
 # speed "1"
-# room (scale 0.1 0.6 (slow 3 (sine)))
-# size (scale 0.1 0.8 (slow 8 (sine)))
 
-d1 $ every 3 (|-| up "3")
+d1 $ every 2 (|+| speed "0.2")
+$ sound "arpy*16"
+# speed "1"
+# room (range 0.1 0.6 (slow 3 (sine)))
+# size (range 0.1 0.8 (slow 8 (sine)))
+
+d1
+$ every 3 (|-| up "3")
 $ every 2 (|+| up "5")
 $ sound "arpy*8"
-|=| up "0 2 4 5"
+# up "0 2 4 5"
 
 d1 silence
 
@@ -145,12 +147,14 @@ d1
 $ sound "{808bd:1 808bd:1 808bd:1 808bd, arpy sine:1 drum notes can}"
 
 d2
-$ fast 1
+$ fast 8
 $ sound "~ <imp>"
 # gain 0.9
 # speed 1
-# begin (scale 0.4 0.9 $ slow 4 $ saw1)
-# pan (scale 1 0 $ slow 2 $ sine1)
+# lpf (range 500 8500 $ slow 16 $ cosine)
+
+# begin (range 0.4 0.9 $ slow 4 $ saw)
+# pan (range 1 0 $ slow 2 $ sine)
 
 d3 $ jux (# accelerate "-0.3")
 $ s "supermandolin*8"
