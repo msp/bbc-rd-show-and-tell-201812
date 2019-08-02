@@ -37,8 +37,8 @@ Synth(\irfs,[\freq,880,\amp,0.2,\pan,1.0]) //pan 1.0 should send to right ear
 (
 {
 	8.do {
-        // Synth(\irfs); // change the Def on the fly
-        Synth(\event,[\freq, rrand(440, 880)]); // randomise params
+        Synth(\irfs); // change the Def on the fly
+        // Synth(\event,[\freq, rrand(440, 880)]); // randomise params
 		1.0.wait;
 	};
 }.fork;

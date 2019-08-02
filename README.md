@@ -1,3 +1,3 @@
-# BBC R&D show and tell 06/12/18
+# Cenatus show and tell 2019
 
-View [slides](https://msp.github.io/bbc-rd-show-and-tell-201812/index.html)
+View [slides](https://msp.github.io/cenatus-show-and-tell-2019/index.html)
